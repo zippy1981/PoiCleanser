@@ -1,0 +1,6 @@
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-15 07:54:51
+project --topLevelPackage net.justaprogrammer.poi.cleanser --projectName PoiCleanser --java 6
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-15 07:54:51
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-15 07:59:12
+dependency add --groupId net.sf.opencsv --artifactId opencsv --version 2.3
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-15 08:52:07
