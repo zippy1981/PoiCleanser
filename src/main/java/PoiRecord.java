@@ -95,7 +95,7 @@ public class PoiRecord {
 	/**
 	 * Ensures that there is a comma and a space delimiting the City and the State or Province.
 	 */
-	public void delimiteCityState() {
+	public void delimitCityState() {
 		if (isUsAddressTruncated()) {
 			setRawAddress(usAddressTruncatedPattern.matcher(getRawAddress()).replaceFirst(",$10$2"));
 		} 

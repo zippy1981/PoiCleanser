@@ -63,19 +63,19 @@ public class PoiRecordTest {
 		PoiRecord truncatedUsAddressRecord = PoiRecord.create(truncatedUsAddress);
 		PoiRecord truncatedUsAddressDelimitedRecord = PoiRecord.create(truncatedUsAddressDelimited);
 		Assert.assertFalse(truncatedUsAddressDelimitedRecord.getRawAddress() == truncatedUsAddressRecord.getRawAddress());
-		truncatedUsAddressRecord.delimiteCityState();
+		truncatedUsAddressRecord.delimitCityState();
 		Assert.assertEquals(truncatedUsAddressDelimitedRecord.getRawAddress(), truncatedUsAddressRecord.getRawAddress());
 		
 		PoiRecord usAddressRecord = PoiRecord.create(usAddress);
 		PoiRecord usAddressDelimitedRecord = PoiRecord.create(usAddressDelimited);
 		Assert.assertFalse(usAddressDelimitedRecord.getRawAddress() == usAddressRecord.getRawAddress());
-		usAddressRecord.delimiteCityState();
+		usAddressRecord.delimitCityState();
 		Assert.assertEquals(usAddressDelimitedRecord.getRawAddress(), usAddressRecord.getRawAddress());
 		
 		PoiRecord canadianAddressRecord = PoiRecord.create(canadianAddress);
 		PoiRecord canadianAddressDelimitedRecord = PoiRecord.create(canadianAddressDelimited);
 		Assert.assertFalse(canadianAddressDelimitedRecord.getRawAddress() == canadianAddressRecord.getRawAddress());
-		canadianAddressRecord.delimiteCityState();
+		canadianAddressRecord.delimitCityState();
 		Assert.assertEquals(canadianAddressDelimitedRecord.getRawAddress(), canadianAddressRecord.getRawAddress());
 	}
 	
