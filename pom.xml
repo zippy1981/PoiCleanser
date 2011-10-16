@@ -9,7 +9,6 @@
     <properties>
         <roo.version>1.1.5.RELEASE</roo.version>
         <spring.version>3.0.5.RELEASE</spring.version>
-        <aspectj.version>1.6.11</aspectj.version>
         <slf4j.version>1.6.1</slf4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -196,17 +195,10 @@
                     <wtpversion>2.0</wtpversion>
                     <additionalBuildcommands>
                         <buildCommand>
-                            <name>org.eclipse.ajdt.core.ajbuilder</name>
-                            <arguments>
-                                <aspectPath>org.springframework.aspects</aspectPath>
-                            </arguments>
-                        </buildCommand>
-                        <buildCommand>
                             <name>org.springframework.ide.eclipse.core.springbuilder</name>
                         </buildCommand>
                     </additionalBuildcommands>
                     <additionalProjectnatures>
-                        <projectnature>org.eclipse.ajdt.ui.ajnature</projectnature>
                         <projectnature>com.springsource.sts.roo.core.nature</projectnature>
                         <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
                     </additionalProjectnatures>
