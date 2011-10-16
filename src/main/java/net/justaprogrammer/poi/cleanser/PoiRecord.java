@@ -1,4 +1,9 @@
+package net.justaprogrammer.poi.cleanser;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
@@ -15,24 +20,38 @@ import au.com.bytecode.opencsv.bean.*;
  */
 public class PoiRecord {
 	// Look for State/Zip
-	private static Pattern usAddressPattern = Pattern.compile(",?( [A-Z]{2} [0-9]{5} )");
+	private static final Pattern usAddressPattern = Pattern.compile(",?( [A-Z]{2} [0-9]{5} )");
 	// Look for a truncated state/zip
-	private static Pattern usAddressTruncatedPattern = Pattern.compile(",?( [A-Z]{2} )(\\d{4} )");
+	private static final Pattern usAddressTruncatedPattern = Pattern.compile(",?( [A-Z]{2} )(\\d{4} )");
 	// Look for province/zip
-	private static Pattern canadianAddressPattern = Pattern.compile(",?( [A-Z]{2} [ABCEGHJKLMNPRSTVXY]\\d[A-Z] ?\\d[A-Z]\\d )");
+	private static final Pattern canadianAddressPattern = Pattern.compile(",?( [A-Z]{2} [ABCEGHJKLMNPRSTVXY]\\d[A-Z] ?\\d[A-Z]\\d )");
 	
 	// We use this for a dirty hack in toString();
-	private static Pattern latLongQuoted = Pattern.compile("\"(-?[0-9]*\\.[0-9]*)\",\"(-?[0-9]*\\.[0-9]*)\"");
+	static final Pattern latLongQuoted = Pattern.compile("\"(-?[0-9]*\\.[0-9]*)\",\"(-?[0-9]*\\.[0-9]*)\"");
+	
+	private static final ColumnPositionMappingStrategy poiColStrat = new ColumnPositionMappingStrategy();
+	static {
+		poiColStrat.setType(PoiRecord.class);
+		String[] columns = new String[] {"latitude", "longitude", "rawName", "rawAddress" };
+		poiColStrat.setColumnMapping(columns);
+	}
 	
 	public static PoiRecord create(String csvRecord) {
-		ColumnPositionMappingStrategy strat = new ColumnPositionMappingStrategy();
-		strat.setType(PoiRecord.class);
-		String[] columns = new String[] {"latitude", "longitude", "rawName", "rawAddress" };
-		strat.setColumnMapping(columns);
-
 		CsvToBean csv = new CsvToBean();
-		List<PoiRecord> list = csv.parse(strat, new StringReader(csvRecord));
+		List<PoiRecord> list = csv.parse(poiColStrat, new StringReader(csvRecord));
 		return list.get(0);
+	}
+	
+	public static List<PoiRecord> createList(String fileName) throws IOException, FileNotFoundException {
+		Reader rdr = new FileReader(fileName);
+		List<PoiRecord> ret = createList(rdr);
+		rdr.close();
+		return ret;
+	}
+	
+	public static List<PoiRecord> createList(Reader csv) {
+		CsvToBean csvToBean = new CsvToBean();
+		return csvToBean.parse(poiColStrat, csv);
 	}
 	
 	private double longitude;
@@ -131,16 +150,33 @@ public class PoiRecord {
 	public String toString() {
 		StringWriter stringWriter = new StringWriter();
 		CSVWriter wtr = new CSVWriter(stringWriter);
-		try {
+		
 			wtr.writeNext(new String [] { ((Double)getLongitude()).toString(), ((Double)getLatitude()).toString(), getRawName(), getRawAddress()});
-			wtr.flush(
-					);
+		try {
+			wtr.flush();
 			wtr.close();
+		}
+		catch (IOException ex) { }
+		// This is a hack to remove the quoting from the latitude and longitude column.
+		return latLongQuoted.matcher(stringWriter.getBuffer().toString()).replaceFirst("$1,$2").trim();
+	}
+	
+	// This will work with OpenCSV 2.4
+	/*
+	public String toString() {
+		StringWriter wtr = new StringWriter();
+		BeanToCsv  csv = new BeanToCsv();
+		List<PoiRecord> list = new ArrayList<PoiRecord>();
+		list.add(this);
+		try {
+			csv.write(poiColStrat, wtr, list);
 		}
 		catch (IOException ex) {
 			return ex.toString();
 		}
 		// This is a hack to remove the quoting from the latitude and longitude column.
-		return latLongQuoted.matcher(stringWriter.getBuffer().toString()).replaceFirst("$1,$2").trim();
+		//return latLongQuoted.matcher(stringWriter.getBuffer().toString()).replaceFirst("$1,$2").trim();
+		return stringWriter.getBuffer().toString().trim();
 	}
+	*/
 }

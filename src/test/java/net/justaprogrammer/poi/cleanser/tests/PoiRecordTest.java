@@ -1,3 +1,7 @@
+package net.justaprogrammer.poi.cleanser.tests;
+
+import net.justaprogrammer.poi.cleanser.*;
+
 import static org.junit.Assert.*;
 import junit.framework.Assert;
 
