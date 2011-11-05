@@ -3,13 +3,28 @@ package net.justaprogrammer.poi.cleanser;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import au.com.bytecode.opencsv.*;
 import au.com.bytecode.opencsv.bean.*;
 
+// My lack of understanding of upcasting and downcasting in java prevents me from writing this class more elegantly. 
+// TODO: Consider making this just implement List<PoiRecord>
+
 public final class PoiRecordList extends ArrayList<PoiRecord> {
+	//TODO: Figure out if this sucks
+	public PoiRecordList(List<PoiRecord> records) {
+		this.addAll(records);
+	}
+	
+	public void cleanse() {
+		for (int i = 0; i < size(); i++) {
+			get(i).delimitCityState();
+		}
+	}
+	
 	public String toString() {
 		StringWriter stringWriter = new StringWriter();
 		CSVWriter wtr = new CSVWriter(stringWriter);
