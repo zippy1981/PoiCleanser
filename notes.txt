@@ -1,0 +1,8 @@
+mvn assembly:single makes an assembly of Just dependencies. mvn:package will populate your classes into that jar, as well as make a jar with just your dependencies in it. For more information see:
+http://stackoverflow.com/questions/7862249/why-does-mvn-assemblysingle-create-a-fat-jar-with-just-the-assemblies-and-not/7862281#7862281
+
+My ultimate goal is to figure out how to create a maven archtype that will make an executable jar and wrapper startup scripts: http://stackoverflow.com/questions/7784788/is-there-a-maven-archtype-for-creating-a-console-app
+
+The maven-shade-plugin Seems to be the key to this.
+
+Also this stackoverflow question might lead to some insight: http://stackoverflow.com/questions/2022032/building-a-runnable-jar-with-maven-2
