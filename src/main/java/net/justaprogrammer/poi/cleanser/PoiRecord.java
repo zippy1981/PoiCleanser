@@ -21,11 +21,11 @@ import au.com.bytecode.opencsv.bean.*;
  */
 public class PoiRecord {
 	// Look for State/Zip
-	private static final Pattern usAddressPattern = Pattern.compile(",?( [A-Z]{2} [0-9]{5} )");
+	private static final Pattern usAddressPattern = Pattern.compile(",?( [A-Z]{2} );?,?([0-9]{5} )");
 	// Look for a truncated state/zip
-	private static final Pattern usAddressTruncatedPattern = Pattern.compile(",?( [A-Z]{2} )(\\d{4} )");
+	private static final Pattern usAddressTruncatedPattern = Pattern.compile(",?( [A-Z]{2} );?,?(\\d{4} )");
 	// Look for province/zip
-	private static final Pattern canadianAddressPattern = Pattern.compile(",?( [A-Z]{2} [ABCEGHJKLMNPRSTVXY]\\d[A-Z] ?\\d[A-Z]\\d )");
+	private static final Pattern canadianAddressPattern = Pattern.compile(",?( [A-Z]{2} );?,?([ABCEGHJKLMNPRSTVXY]\\d[A-Z] ?\\d[A-Z]\\d )");
 	
 	// We use this for a dirty hack in toString();
 	static final Pattern latLongQuoted = Pattern.compile("\"(-?[0-9]*\\.[0-9]*)\",\"(-?[0-9]*\\.[0-9]*)\"");
@@ -33,7 +33,7 @@ public class PoiRecord {
 	private static final ColumnPositionMappingStrategy poiColStrat = new ColumnPositionMappingStrategy();
 	static {
 		poiColStrat.setType(PoiRecord.class);
-		String[] columns = new String[] {"latitude", "longitude", "rawName", "rawAddress" };
+		String[] columns = new String[] {"longitude", "latitude", "rawName", "rawAddress" };
 		poiColStrat.setColumnMapping(columns);
 	}
 	
@@ -117,13 +117,13 @@ public class PoiRecord {
 	 */
 	public void delimitCityState() {
 		if (isUsAddressTruncated()) {
-			setRawAddress(usAddressTruncatedPattern.matcher(getRawAddress()).replaceFirst(",$10$2"));
+			setRawAddress(usAddressTruncatedPattern.matcher(getRawAddress()).replaceFirst(",$1;,0$2"));
 		} 
 		else if (isUsAddress()) {
-			setRawAddress(usAddressPattern.matcher(getRawAddress()).replaceFirst(",$1"));
+			setRawAddress(usAddressPattern.matcher(getRawAddress()).replaceFirst(",$1;,$2"));
 		} 
 		else if (isCanadianAddress()) {
-			setRawAddress(canadianAddressPattern.matcher(getRawAddress()).replaceFirst(",$1"));
+			setRawAddress(canadianAddressPattern.matcher(getRawAddress()).replaceFirst(",$1;,$2"));
 		}
 	}
 	

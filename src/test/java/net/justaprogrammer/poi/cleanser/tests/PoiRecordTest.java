@@ -19,8 +19,8 @@ public class PoiRecordTest {
 
 	@Test
 	public void testPoiRecordIsFoo() {
-		String truncatedUsAddress = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 6053 (860) 223-3222;\"";
-		String usAddress = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 06053 (860) 223-3222;\"";
+		String truncatedUsAddress = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 6053 (860) 223-3222\"";
+		String usAddress = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 06053 (860) 223-3222\"";
 		String canadianAddress = "-114.21823,51.15389,\"Supercentre  -  Calgary (Royal Oak) , #5726;\",\"8888 Country Hills Blvd #200, Calgary, AB T3G 5T4 (403) 567-1502;  (NOP)\"";
 		
 		boolean done = false;
@@ -56,13 +56,13 @@ public class PoiRecordTest {
 
 	@Test
 	public void testPoiRecorddelimitState() {
-		String truncatedUsAddress = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 6053 (860) 223-3222;\"";
-		String usAddress = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 06053 (860) 223-3222;\"";
+		String truncatedUsAddress = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT ;,6053 (860) 223-3222\"";
+		String usAddress = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 06053 (860) 223-3222\"";
 		String canadianAddress = "-114.21823,51.15389,\"Supercentre  -  Calgary (Royal Oak) , #5726;\",\"8888 Country Hills Blvd #200, Calgary AB T3G 5T4 (403) 567-1502;  (NOP)\"";
 		
-		String truncatedUsAddressDelimited = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain, CT 06053 (860) 223-3222;\"";
-		String usAddressDelimited = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain, CT 06053 (860) 223-3222;\"";
-		String canadianAddressDelimited = "-114.21823,51.15389,\"Supercentre  -  Calgary (Royal Oak) , #5726;\",\"8888 Country Hills Blvd #200, Calgary, AB T3G 5T4 (403) 567-1502;  (NOP)\"";
+		String truncatedUsAddressDelimited = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain, CT ;,06053 (860) 223-3222\"";
+		String usAddressDelimited = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain, CT ;,06053 (860) 223-3222\"";
+		String canadianAddressDelimited = "-114.21823,51.15389,\"Supercentre  -  Calgary (Royal Oak) , #5726;\",\"8888 Country Hills Blvd #200, Calgary, AB ;,T3G 5T4 (403) 567-1502;  (NOP)\"";
 		
 		PoiRecord truncatedUsAddressRecord = PoiRecord.create(truncatedUsAddress);
 		PoiRecord truncatedUsAddressDelimitedRecord = PoiRecord.create(truncatedUsAddressDelimited);
@@ -85,13 +85,13 @@ public class PoiRecordTest {
 	
 	@Test
 	public void testPoiRecordToString() {
-		String input = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 6053 (860) 223-3222;\"";
+		String input = "-72.789915,41.695685,\"Wal-Mart  -  New Britain, #2570;\",\"655 Farmington Ave, New Britain CT 6053 (860) 223-3222\"";
 		
 		PoiRecord record = new PoiRecord();
 		record.setLongitude(-72.789915);
 		record.setLatitude(41.695685);
 		record.setRawName("Wal-Mart  -  New Britain, #2570;");
-		record.setRawAddress("655 Farmington Ave, New Britain CT 6053 (860) 223-3222;");
+		record.setRawAddress("655 Farmington Ave, New Britain CT 6053 (860) 223-3222");
 		Assert.assertEquals(input, record.toString());
 	}
 }

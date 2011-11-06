@@ -36,7 +36,7 @@ public final class PoiRecordList extends ArrayList<PoiRecord> {
 			wtr.close();
 		}
 		catch (IOException ex) {
-			// I don't see this actually happening since we are using a StringWriter(), and theres nothing to do here really.
+			// I don't see this actually happening since we are using a StringWriter().
 		}
 		// This is a hack to remove the quoting from the latitude and longitude column.
 		return PoiRecord.latLongQuoted.matcher(stringWriter.getBuffer().toString()).replaceAll("$1,$2").trim();
